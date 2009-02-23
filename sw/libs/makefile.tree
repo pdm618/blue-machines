@@ -1,0 +1,2 @@
+SUBDIRS = slibc
+include $(MENGINE)/dirs.mk
