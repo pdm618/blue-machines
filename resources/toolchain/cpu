@@ -1,0 +1,66 @@
+------------------------------------------------------
+Cortex: armv7-a/r/m/a8/r4/m3
+------------------------------------------------------
+ARM Options:
+-mapcs-frame 
+-mno-apcs-frame 
+-mabi=name 
+-mapcs-stack-check 
+-mno-apcs-stack-check 
+-mapcs-float 
+-mno-apcs-float 
+-mapcs-reentrant 
+-mno-apcs-reentrant 
+-msched-prolog 
+-mno-sched-prolog 
+-mlittle-endian 
+-mbig-endian 
+-mwords-little-endian 
+-mfloat-abi=name 
+-msoft-float 
+-mhard-float 
+-mfpe 
+-mthumb-interwork 
+-mno-thumb-interwork 
+-mcpu=name 
+-march=name 
+-mfpu=name 
+-mstructure-size-boundary=n 
+-mabort-on-noreturn 
+-mlong-calls 
+-mno-long-calls 
+-msingle-pic-base 
+-mno-single-pic-base 
+-mpic-register=reg 
+-mnop-fun-dllimport 
+-mcirrus-fix-invalid-insns 
+-mno-cirrus-fix-invalid-insns 
+-mpoke-function-name 
+-mthumb 
+-marm 
+-mtpcs-frame 
+-mtpcs-leaf-frame 
+-mcaller-super-interworking 
+-mcallee-super-interworking 
+-mtp=name 
+------------------------------------------------------
+-mcpu=name
+ This specifies the name of the target ARM processor.
+GCC uses this name to determine what kind of instructions it can emit when generating assembly code.
+Permissible names are:
+arm2, arm250, arm3, arm6, arm60, arm600, arm610, arm620,
+arm7, arm7m, arm7d, arm7dm, arm7di, arm7dmi, arm70, arm700, arm700i, arm710, arm710c, arm7100, arm7500, arm7500fe, arm7tdmi, arm7tdmi-s,
+arm8, strongarm, strongarm110, strongarm1100, arm8, arm810, arm9, arm9e, arm920, arm920t, arm922t, arm946e-s, arm966e-s, arm968e-s,
+arm926ej-s, arm940t, arm9tdmi, arm10tdmi, arm1020t, arm1026ej-s, arm10e, arm1020e, arm1022e, arm1136j-s, arm1136jf-s,
+mpcore, mpcorenovfp, arm1176jz-s, arm1176jzf-s, xscale, iwmmxt, ep9312. 
+------------------------------------------------------
+-mtune=name
+ This option is very similar to the -mcpu= option, except that instead of specifying the actual target processor type,
+and hence restricting which instructions can be used, it specifies that GCC should tune the performance of the
+code as if the target were of the type specified in this option, but still choosing the instructions that it will
+generate based on the cpu specified by a -mcpu= option. For some ARM implementations better performance can be obtained by using this option. 
+------------------------------------------------------
+-march=name
+ This specifies the name of the target ARM architecture. GCC uses this name to determine what kind of instructions
+it can emit when generating assembly code. This option can be used in conjunction with or instead of the -mcpu= option.
+Permissible names are: armv2, armv2a, armv3, armv3m, armv4, armv4t, armv5, armv5t, armv5te, armv6, armv6j, iwmmxt, ep9312.

@@ -1,0 +1,12 @@
+diff -Naur old/bfd/doc/Makefile.in new/bfd/doc/Makefile.in
+--- old/bfd/doc/Makefile.in	2007-08-06 23:29:52.000000000 +0300
++++ new/bfd/doc/Makefile.in	2007-12-06 13:47:14.000000000 +0200
+@@ -400,7 +400,7 @@
+ 	  rc=$$?; \
+ 	  $$restore $$backupdir/* `echo "./$@" | sed 's|[^/]*$$||'`; \
+ 	fi; \
+-	rm -rf $$backupdir; exit $$rc
++	rm -rf $$backupdir; echo "AMW ->> $$rc"; exit 0
+ 
+ bfd.dvi: bfd.texinfo $(bfd_TEXINFOS) 
+ 	TEXINPUTS="$(am__TEXINFO_TEX_DIR)$(PATH_SEPARATOR)$$TEXINPUTS" \
