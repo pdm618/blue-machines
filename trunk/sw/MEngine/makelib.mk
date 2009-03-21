@@ -1,15 +1,16 @@
 #
 # Library builder:
 # 
-# Input params:  LIBNAME         - library name (f.e. 'foo')
+# Input params:  LIBTARGET       - target file
 # Input files:   *.c *.s *.S     - source files
-# Output:        lib$(LIBNAME).a - compiled library (f.e. 'libfoo.a')
 #
 include $(MENGINE)/env.mk
 
 # Globals
-LIBNAME  ?= noname
-
+ifeq ($(LIB),)
+$(error LIB is not specified)
+endif
+LIBTARGET := $(addprefix $(LIBDIR),$(LIB))
 # Sources
 CSOURCE   = $(patsubst ./%, %, $(shell find . -name '*.c'))
 ASOURCE   = $(patsubst ./%, %, $(shell find . -name '*.S'))
@@ -21,35 +22,43 @@ COBJS     = $(patsubst %.c, %.o,$(CSOURCE))
 OBJS      = $(AOBJS)
 OBJS     += $(COBJS)
 
+OBJTARGETS = $(addprefix $(OBJDIR), $(OBJS))
+OBJDIRTARGETS = $(sort $(foreach dir,$(OBJTARGETS),$(dir $(OBJTARGETS))))
+CFLAGS   += -c $(INCLUDE)
+
+LIBNAME = $(patsubst lib%.a,%,$(notdir $(LIBTARGET)))
+
 # Targets
-.PHONY: $(TARGETS)
-LIBTARGET = lib$(LIBNAME).a
+.PHONY: message
 
 all: message $(LIBTARGET)
 
-$(LIBTARGET): $(OBJS)
+$(LIBTARGET): $(OBJDIRTARGETS) $(OBJTARGETS)
 	$(ECHO) "   AR .. $(LIBTARGET)"
-	$(AR) ru $(LIBTARGET) $(OBJS) $(TONULL)
-	cd ..
+	$(AR) ru $(LIBTARGET) $(filter %.a %.o,$^) $(TONULL)
 
-%.o: %.c
+$(OBJDIRTARGETS):
+	$(ECHO) "   MKDIR .. $@"
+	$(MKDIR) -p $@
+
+$(OBJDIR)%.o: %.c
 	$(ECHO) "   CC .. $<"
 	$(CC) $(CFLAGS) $< -o $@
   
-%.o: %.s
+$(OBJDIR)%.o: %.s
 	$(ECHO) "   As .. $<"
 	$(CC) -E $< -o a.s
 	$(AS) a.s $(ASFLAGS) -o $@
-#	$(RM) a.s
+	$(RM) a.s
 
-%.o: %.S
+$(OBJDIR)%.o: %.S
 	$(ECHO) "   AS .. $<"
 	$(CC) -E $< > a.s
 	$(AS) a.s $(ASFLAGS) -o $@
 	$(RM) a.s
   
 message:
-	$(ECHO) "  Making library [ $(LIBNAME) ] in [ $(patsubst $(ROOT)%,.%, $(shell pwd)) ]"
+	$(ECHO) "  Making library [ $(LIBNAME) ] in [ $(patsubst $(ROOT)%,.%, $(shell pwd)) ]" 
 
 clean:
 	$(ECHO) "  Cleaning library [ $(LIBNAME) ] in [ $(patsubst $(ROOT)%,.%, $(shell pwd)) ]"
