@@ -1,5 +1,4 @@
-export ROOT          = $(shell pwd)
+export ROOT          = $(shell pwd)/
 export MENGINE       = $(ROOT)/MEngine
-export TOOLCHAINPATH = /usr/local/armtools/bin/
-
-# App specifig flags
+export TOOLCHAINPATH := /usr/local/armtools/bin/
+export PROGNAME      := test

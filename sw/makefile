@@ -1,18 +1,45 @@
 include config.mk
-
-PROGNAME      = blue-machines
-
-export OBJDIR = ./.obj/
-#export LIBDIR = $(ROOT)/.lib/
-
-TARGETS ?= all clean message
-export TARGETS
-
-#APPDIR       = app
-INCDIR       = include
-SUBDIRS      = boot libs os/freertos
 include $(MENGINE)/env.mk
-include $(MENGINE)/dirs.mk
+#include projconf.mk
+
+export BUILDDIR = $(ROOT).build/
+export OBJDIR   = $(BUILDDIR).objs/
+export LIBDIR   = $(BUILDDIR).libs/
+BINDIR          = $(BUILDDIR).bin/
+
+DIRTARGETS := $(BUILDDIR) $(OBJDIR) $(LIBDIR) $(BINDIR)
+
+# To be moved to "projconf.mk"
+LIBS       := boot os slibc app
+ELF        := $(BINDIR)$(PROGNAME).elf
+FW         := $(BINDIR)$(PROGNAME).fw
+HEX        := $(BINDIR)$(PROGNAME).hex
+
+CRT0       := $(OBJDIR)boot/crt0.o
+LIBTARGETS := $(patsubst %,$(LIBDIR)lib%.a,$(LIBS))
+LDFLAGS    := -Tlinker/lpc2378.lds -nostdlib -nostartfiles
+EXTRACTDIR = $(patsubst lib%.a,%,$(notdir $@))
+
+.PHONY: all clean
+
+all: $(FW)
+$(FW): $(ELF)
+	$(OBJCOPY) -O binary $(ELF) $(FW)
+	$(OBJCOPY) -O ihex $(ELF) $(HEX)
+  
+$(ELF): $(DIRTARGETS) $(LIBTARGETS)
+	$(LD) $(LDFLAGS) -o $@ $(CRT0) $(filter %.a,$^) 
+
+$(DIRTARGETS):
+	$(MKDIR) -p $@
+
+$(LIBTARGETS):
+	$(MAKE) -C $(EXTRACTDIR) LIB=$(notdir $@) OBJDIR=$(OBJDIR)$(EXTRACTDIR)/|| exit 1
+
+clean:
+	$(ECHO) "Cleaning..."
+	$(RM) -r $(DIRTARGETS)
+	$(ECHO) "... done"
 
 veryclean:
 	find -type d -name .obj -exec rm -rf '{}' \;; find -type d -name .lib -exec rm -rf '{}' \;; \
