@@ -1,0 +1,31 @@
+diff -Naur old/etc/Makefile.in new/etc/Makefile.in
+--- old/etc/Makefile.in	2006-04-07 00:49:30.000000000 +0300
++++ new/etc/Makefile.in	2007-12-06 15:05:23.000000000 +0200
+@@ -69,7 +69,7 @@
+ 	    if $(MAKE) "MAKEINFO=$(MAKEINFO)" $$f; then \
+ 	      true; \
+ 	    else \
+-	      exit 1; \
++	      true; \
+ 	    fi; \
+ 	  fi; \
+ 	done
+@@ -127,7 +127,8 @@
+ 	done
+ 
+ standards.info: $(srcdir)/standards.texi $(srcdir)/make-stds.texi
+-	$(MAKEINFO) --no-split -I$(srcdir) -o standards.info $(srcdir)/standards.texi
++	true
++#	$(MAKEINFO) --no-split -I$(srcdir) -o standards.info $(srcdir)/standards.texi
+ 
+ standards.html: $(srcdir)/standards.texi $(srcdir)/make-stds.texi
+ 	$(TEXI2HTML) --no-split -I$(srcdir) -o standards.html $(srcdir)/standards.texi
+@@ -143,7 +144,7 @@
+ 	rm -f configdev.txt configbuild.txt
+ 	cp $(srcdir)/configdev.tin configdev.txt
+ 	cp $(srcdir)/configbuild.tin configbuild.txt
+-	$(MAKEINFO) -I$(srcdir) -o configure.info $(srcdir)/configure.texi
++	true #$(MAKEINFO) -I$(srcdir) -o configure.info $(srcdir)/configure.texi
+ 	rm -f configdev.txt configbuild.txt
+ 
+ # texi2dvi wants both the .txt and the .eps files.

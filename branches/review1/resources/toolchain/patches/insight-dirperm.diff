@@ -1,0 +1,155 @@
+diff -Naur old/itcl/itcl/Makefile.in new/itcl/itcl/Makefile.in
+--- old/itcl/itcl/Makefile.in	2005-09-01 08:32:08.000000000 +0300
++++ new/itcl/itcl/Makefile.in	2007-12-06 17:15:38.000000000 +0200
+@@ -297,7 +297,7 @@
+ 	    echo "Installing $$i"; \
+ 	    sed -e '/man\.macros/r man.macros' -e '/man\.macros/d' \
+ 		$$i > $(mandir)/mann/$$i; \
+-	    chmod 444 $(mandir)/mann/$$i; \
++	    chmod 644 $(mandir)/mann/$$i; \
+ 	    done
+ 
+ test: $(TCLSH_PROG)
+diff -Naur old/itcl/itcl/win/Makefile.in new/itcl/itcl/win/Makefile.in
+--- old/itcl/itcl/win/Makefile.in	2003-01-21 22:40:28.000000000 +0200
++++ new/itcl/itcl/win/Makefile.in	2007-12-06 17:15:57.000000000 +0200
+@@ -315,8 +315,8 @@
+ 	@for i in $(INSTALL_LIB_DIR) $(INSTALL_BIN_DIR) ; \
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+-		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		echo "AMW 1 --> Making directory $$i"; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -337,8 +337,8 @@
+ 	@for i in $(INSTALL_INCLUDE_DIR); \
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+-		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		echo "AMW 2 --> Making directory $$i"; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -353,8 +353,8 @@
+ 	@for i in $(prefix)/lib $(ITCL_LIBRARY); \
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+-		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		echo "AMW 3 --> Making directory $$i"; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -372,8 +372,8 @@
+ 	    $(INSTALL_MAN3_DIR) $(INSTALL_MANN_DIR) ; \
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+-		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		echo "AMW 4 --> Making directory $$i"; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -384,7 +384,7 @@
+ 	    rm -f $(INSTALL_MANN_DIR)/$$i; \
+ 	    sed -e '/man\.macros/r man.macros' -e '/man\.macros/d' \
+ 		    $$i > $(INSTALL_MANN_DIR)/$$i; \
+-	    chmod 444 $(INSTALL_MANN_DIR)/$$i; \
++	    chmod 644 $(INSTALL_MANN_DIR)/$$i; \
+ 	    done; \
+ 	for i in *.1 ; \
+ 	    do \
+@@ -392,7 +392,7 @@
+ 	    rm -f $(INSTALL_MAN1_DIR)/$$i; \
+ 	    sed -e '/man\.macros/r man.macros' -e '/man\.macros/d' \
+ 		    $$i > $(INSTALL_MAN1_DIR)/$$i; \
+-	    chmod 444 $(INSTALL_MAN1_DIR)/$$i; \
++	    chmod 644 $(INSTALL_MAN1_DIR)/$$i; \
+ 	    done; \
+ 	for i in *.3 ; \
+ 	    do \
+@@ -400,7 +400,7 @@
+ 	    rm -f $(INSTALL_MAN3_DIR)/$$i; \
+ 	    sed -e '/man\.macros/r man.macros' -e '/man\.macros/d' \
+ 		    $$i > $(INSTALL_MAN3_DIR)/$$i; \
+-	    chmod 444 $(INSTALL_MAN3_DIR)/$$i; \
++	    chmod 644 $(INSTALL_MAN3_DIR)/$$i; \
+ 	    done;
+ 
+ install-info info installcheck:
+diff -Naur old/itcl/itk/win/Makefile.in new/itcl/itk/win/Makefile.in
+--- old/itcl/itk/win/Makefile.in	2003-01-21 22:40:31.000000000 +0200
++++ new/itcl/itk/win/Makefile.in	2007-12-06 16:05:51.000000000 +0200
+@@ -337,7 +337,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -361,7 +361,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -377,7 +377,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -404,7 +404,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+diff -Naur old/itcl/itk/win/Makefile.in_first new/itcl/itk/win/Makefile.in_first
+--- old/itcl/itk/win/Makefile.in_first	2003-01-21 22:40:31.000000000 +0200
++++ new/itcl/itk/win/Makefile.in_first	2007-12-06 16:05:51.000000000 +0200
+@@ -135,7 +135,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -159,7 +159,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
+@@ -184,7 +184,7 @@
+ 	    do \
+ 	    if [ ! -d $$i ] ; then \
+ 		echo "Making directory $$i"; \
+-		mkdir $$i; \
++		mkdir -p $$i; \
+ 		chmod 755 $$i; \
+ 		else true; \
+ 		fi; \
